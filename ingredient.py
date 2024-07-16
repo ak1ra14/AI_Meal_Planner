@@ -29,7 +29,7 @@ def find_ingredients(url):
       {
           "role": "user",
           "content": "I want you to only return the names of the foods that are present in the image."
-      }
+      } 
     ],
     temperature=0.5
   )
