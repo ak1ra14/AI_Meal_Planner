@@ -17,7 +17,7 @@ def download_image(url, filename):
 #   st.snow()
 
 # option = st.selectbox('What food would you like?', ['Pizza', 'Burger', 'Fries'])
-api_key = 'sk-proj-7rv8DZLNoLLxKKfL87IzT3BlbkFJxscl0NXU6939eMBFa2Dm'
+api_key = st.secrets['OPENAI_KEY']
 # st.write(option)
 client = OpenAI(api_key=api_key)
 
