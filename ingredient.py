@@ -70,6 +70,9 @@ def encode_image(image_path):
 
 # ---------------UI-------------------
 
+st.title("Grandma's AI")
+
+
 st.write('How easy do you want your meal to be prepared?')
 option_1 = st.checkbox("Easy (I'm busy ;-;)")
 option_2 = st.checkbox("Moderate (I can handle it)")
