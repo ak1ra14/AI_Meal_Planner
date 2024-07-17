@@ -52,7 +52,7 @@ def meal_suggestion(ingredients = "", level = "", filter_ingredient_string = "",
               
           {
               "role": "user",
-              "content": f"With these ingredients: {ingredients}, acting as what the user had for their meals for the day before, suggest 2 meals for the user to eat, providing the name, nutritional value and recipe for the meals suggested, ensuring that the meals are at an {level} of difficulty to create or prep. Please do not include these ingredients in the meals: {filter_ingredient_string}. {dietary_string}"
+              "content": f"With these ingredients: {ingredients}, acting as what the user had for their meals for the day before, suggest 2 meals for the user to eat, providing the name, nutritional value and recipe for the meals suggested, ensuring that the meals are at an {level} of difficulty to create or prep. Please do not include these ingredients in the meals: {filter_ingredient_string}. Please ensure the meals generated fit the following dietary requirements: {dietary_string}"
           } 
         ],
         temperature=0.5
@@ -91,6 +91,7 @@ for i in options:
 
 if st.button("Take a picture of your meal"):
     cameraInput = st.camera_input("Take a picture of your meal")
+
 
 uploaded_file = st.file_uploader("Upload pictures of past meals", accept_multiple_files=True)
 if not (option_1 or option_2 or option_3):
@@ -135,7 +136,7 @@ elif uploaded_file is not None and len(uploaded_file) == 3:
     # meal suggestion for easy level
     if easy:    
         st.title("Easier Options")
-        easy_meals = meal_suggestion(all_ingredients, "easy", filter_ingredient_string, dietary_string)
+        easy_meals = meal_suggestion(all_ingredients, "easy", filter_ingredient_string, dietary_restrictions)
         st.write(easy_meals)
         
         is_text += easy_meals
@@ -143,14 +144,14 @@ elif uploaded_file is not None and len(uploaded_file) == 3:
     # meal suggestion for moderate level
     if moderate:
         st.title("Moderate Options")
-        moderate_meals = meal_suggestion(all_ingredients, "moderate skill level", filter_ingredient_string, dietary_string)
+        moderate_meals = meal_suggestion(all_ingredients, "moderate skill level", filter_ingredient_string, dietary_restrictions)
         st.write(moderate_meals)
         is_text += moderate_meals
 
     # meal suggestion for hard level
     if hard:
         st.title("Difficult Options")
-        hard_meals = meal_suggestion(all_ingredients, "higher skill level", filter_ingredient_string, dietary_string)
+        hard_meals = meal_suggestion(all_ingredients, "higher skill level", filter_ingredient_string, dietary_restrictions)
         st.write(hard_meals)
         is_text += hard_meals
 
