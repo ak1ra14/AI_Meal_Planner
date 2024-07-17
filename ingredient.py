@@ -52,7 +52,7 @@ def meal_suggestion(ingredients = "", level = "", filter_ingredient_string = "",
               
           {
               "role": "user",
-              "content": f"With these ingredients: {ingredients}, acting as what the user had for their meals for the day before, suggest 2 meals for the user to eat, providing the name, nutritional value and recipe for the meals suggested, ensuring that the meals are at an {level} of difficulty to create or prep. Please do not include these ingredients in the meals: {filter_ingredient_string}. Please ensure the meals generated fit the following dietary requirements: {dietary_string}"
+              "content": f"these ingredients: {ingredients}, are what the user ate recently. suggest 2 meals for the user to eat as a followup to the meals mentioned for the next day, providing the name, nutritional value and recipe for the meals suggested, ensuring that the meals are at an {level} of difficulty to create or prep. Please do not include these ingredients in the meals: {filter_ingredient_string}. Please ensure the meals generated fit the following dietary requirements: {dietary_string}"
           } 
         ],
         temperature=0.5
@@ -89,15 +89,29 @@ filter_ingredient_string = ''
 for i in options:
     filter_ingredient_string += f"{i}, "
 
-if st.button("Take a picture of your meal"):
-    cameraInput = st.camera_input("Take a picture of your meal")
-
+image_path = None
+if st.toggle("Take a picture of your meal"):
+    for i in range(3):
+        cameraInput = st.camera_input("Take a picture of your meal")
+        
+        if cameraInput is not None:
+            image_path = cameraInput
+        # st.write(cameraInput)
+    # image_path = cameraInput
+# if image_path == None:
+#     st.write("image_path")
 
 uploaded_file = st.file_uploader("Upload pictures of past meals", accept_multiple_files=True)
+
+if image_path is not None:
+    uploaded_file.append(image_path)
+    # st.write("uploaded")
+    # st.write(uploaded_file)
+
 if not (option_1 or option_2 or option_3):
     st.write("Please select at least one option.")
     
-elif uploaded_file is not None and len(uploaded_file) == 3:
+elif uploaded_file is not None and len(uploaded_file) >= 3:
     # st.write("yes")
     # Getting the base64 string
     base64_image0 = encode_image(uploaded_file[0])
@@ -138,7 +152,9 @@ elif uploaded_file is not None and len(uploaded_file) == 3:
         st.title("Easier Options")
         easy_meals = meal_suggestion(all_ingredients, "easy", filter_ingredient_string, dietary_restrictions)
         st.write(easy_meals)
-        
+        # st.write("TEST")
+        # meal1 = easy_meals.split("Meal ")[1].split("\n")[0][3:])
+        # meal2 = easy_meals.split("Meal ")[2].split("\n")[0][3:])
         is_text += easy_meals
 
     # meal suggestion for moderate level
